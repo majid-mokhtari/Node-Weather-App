@@ -7,6 +7,8 @@ const port = process.env.PORT || 8000;
 var app = express();
 
 app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   var now = new Date().toString();
   const log = `${now}: ${req.method} ${req.url}`;
   console.log(log);
