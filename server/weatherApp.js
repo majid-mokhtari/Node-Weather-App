@@ -13,7 +13,7 @@ const argv = yargs
   .help()
   .alias('help', 'h').argv;
 
-const address = '1279 38th ave San Francisco, 94122';
+const address = '150 Font blvd San Francisco, 94132';
 var encodedAddress = encodeURIComponent(address);
 var geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress}&key=AIzaSyDh5HKm75BZXkIKo0GKdtgEnT_NaT_biso`;
 
