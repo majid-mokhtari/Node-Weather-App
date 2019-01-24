@@ -32,7 +32,7 @@ axios
   .then(response => {
     var temperature = response.data.currently.temperature;
     var apparentTemperature = response.data.currently.apparentTemperature;
-    const weather = `Your current temperature is: <h2>${temperature} and it feels like ${apparentTemperature}.</h2>`;
+    const weather = `Your current temperature is: ${temperature} and it feels like ${apparentTemperature}.`;
     module.exports.weather = weather;
   })
   .catch(e => {

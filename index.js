@@ -23,7 +23,7 @@ app.use((req, res, next) => {
 app.get('/', (req, res) => {
   const address = weatherApp.address;
   const weather = weatherApp.weather;
-  res.send(`Your current address is: <h2>${address}</h2>${weather}`);
+  res.send(`Your current address is: ${address} and ${weather}`);
 });
 
 app.get('/user/:id', (req, res) => {
