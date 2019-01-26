@@ -4,7 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha server/**/*.test.js",
+    "test-watch": "nodemon --exec 'npm test'",
     "start": "node server/server.js"
   },
   "author": "",
@@ -20,7 +21,11 @@
     "eslint-plugin-jsx-a11y": "^6.1.2",
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-react": "^7.12.3",
-    "prettier": "^1.15.3"
+    "expect": "^24.0.0",
+    "mocha": "^5.2.0",
+    "nodemon": "^1.18.9",
+    "prettier": "^1.15.3",
+    "supertest": "^3.4.2"
   },
   "dependencies": {
     "axios": "^0.18.0",
