@@ -2,6 +2,7 @@ var express = require('express')
 var bodyParser = require('body-parser')
 var cors = require('cors')
 
+var { mongoose } = require('./db/mongoose')
 const weatherApp = require('../src/weatherApp')
 var { Todo } = require('./models/todo')
 var { User } = require('./models/user')
