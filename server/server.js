@@ -7,7 +7,7 @@ const weatherApp = require('../src/weatherApp')
 var { Todo } = require('./models/todo')
 var { User } = require('./models/user')
 
-const port = process.env.PORT || 8000
+const port = process.env.PORT || 8010
 
 var app = express()
 app.use(cors())
@@ -19,12 +19,34 @@ app.get('/weather', (req, res) => {
   res.send(`Your current address is: ${address} and ${weather}`)
 })
 
+app.get('/todos', (req, res) => {
+  Todo.find().then(
+    todos => {
+      res.send({ todos })
+    },
+    e => {
+      res.status(400).send(e)
+    }
+  )
+})
+
 app.post('/todos', (req, res) => {
   var todo = new Todo({
     text: req.body.text
   })
 
   todo.save().then(
+    doc => {
+      res.send(doc)
+    },
+    e => {
+      res.status(400).send(e)
+    }
+  )
+})
+
+app.delete('/todos', (req, res) => {
+  Todo.remove({}).then(
     doc => {
       res.send(doc)
     },

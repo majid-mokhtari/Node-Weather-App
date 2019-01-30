@@ -1,5 +1,5 @@
-const yargs = require('yargs');
-const axios = require('axios');
+const yargs = require('yargs')
+const axios = require('axios')
 
 const argv = yargs
   .options({
@@ -11,34 +11,34 @@ const argv = yargs
     }
   })
   .help()
-  .alias('help', 'h').argv;
+  .alias('help', 'h').argv
 
-const address = '1279 38th ave San Francisco, 94122';
-var encodedAddress = encodeURIComponent(address);
-var geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress}&key=AIzaSyDh5HKm75BZXkIKo0GKdtgEnT_NaT_biso`;
+const address = '1279 38th ave San Francisco, 94122'
+var encodedAddress = encodeURIComponent(address)
+var geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress}&key=AIzaSyDh5HKm75BZXkIKo0GKdtgEnT_NaT_biso`
 
 axios
   .get(geocodeUrl)
   .then(response => {
     if (response.data.status === 'ZERO_RESULTS') {
-      throw new Error('Unable to find that address.');
-    } else var lat = response.data.results[0].geometry.location.lat;
-    var lng = response.data.results[0].geometry.location.lng;
-    var weatherUrl = `https://api.darksky.net/forecast/e3a138bee5c40adc7b1513fa6206692e/${lat},${lng}`;
-    const formattedAddress = response.data.results[0].formatted_address;
-    module.exports.address = formattedAddress;
-    return axios.get(weatherUrl);
+      throw new Error('Unable to find that address.')
+    } else var lat = response.data.results[0].geometry.location.lat
+    var lng = response.data.results[0].geometry.location.lng
+    var weatherUrl = `https://api.darksky.net/forecast/e3a138bee5c40adc7b1513fa6206692e/${lat},${lng}`
+    const formattedAddress = response.data.results[0].formatted_address
+    module.exports.address = formattedAddress
+    return axios.get(weatherUrl)
   })
   .then(response => {
-    var temperature = response.data.currently.temperature;
-    var apparentTemperature = response.data.currently.apparentTemperature;
-    const weather = `Your current temperature is ${temperature} and it feels like ${apparentTemperature}`;
-    module.exports.weather = weather;
+    var temperature = response.data.currently.temperature
+    var apparentTemperature = response.data.currently.apparentTemperature
+    const weather = `Your current temperature is ${temperature} and it feels like ${apparentTemperature}`
+    module.exports.weather = weather
   })
   .catch(e => {
     if (e.code === 'ENOTFOUND') {
-      console.log('Unable to connect to API servers.');
+      console.log('Unable to connect to API servers.')
     } else {
-      console.log('Server Error:', e.message);
+      console.log('Server Error:', e.message)
     }
-  });
+  })
