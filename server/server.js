@@ -66,17 +66,6 @@ app.post('/todos', (req, res) => {
   )
 })
 
-app.delete('/todos', (req, res) => {
-  Todo.remove({}).then(
-    doc => {
-      res.send(doc)
-    },
-    e => {
-      res.status(400).send(e)
-    }
-  )
-})
-
 app.post('/user', (req, res) => {
   var user = new User({
     email: req.body.email
@@ -90,6 +79,36 @@ app.post('/user', (req, res) => {
       res.status(400).send(e)
     }
   )
+})
+
+app.delete('/todos', (req, res) => {
+  Todo.deleteMany({}).then(
+    doc => {
+      res.send(doc)
+    },
+    e => {
+      res.status(400).send(e)
+    }
+  )
+})
+
+app.delete('/todos/:id', (req, res) => {
+  var id = req.params.id
+
+  if (!ObjectID.isValid(id)) {
+    return res.status(404).send()
+  }
+
+  Todo.findByIdAndDelete(id)
+    .then(todo => {
+      if (!todo) {
+        return res.status(404).send()
+      }
+      res.send({ todo })
+    })
+    .catch(e => {
+      res.status(400).send()
+    })
 })
 
 app.listen(port, () => {
