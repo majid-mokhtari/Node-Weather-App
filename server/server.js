@@ -68,19 +68,18 @@ app.post('/todos', (req, res) => {
   )
 })
 
-app.post('/user', (req, res) => {
-  var user = new User({
-    email: req.body.email
-  })
+app.post('/users', (req, res) => {
+  var body = _.pick(req.body, ['email', 'password'])
+  var user = new User(body)
 
-  user.save().then(
-    doc => {
-      res.send(doc)
-    },
-    e => {
+  user
+    .save()
+    .then(user => {
+      res.send(user)
+    })
+    .catch(e => {
       res.status(400).send(e)
-    }
-  )
+    })
 })
 
 app.patch('/todos/:id', (req, res) => {
