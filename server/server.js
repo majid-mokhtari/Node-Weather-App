@@ -1,3 +1,4 @@
+require('./config/config')
 const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
@@ -9,7 +10,7 @@ const weatherApp = require('../src/weatherApp')
 const { Todo } = require('./models/todo')
 const { User } = require('./models/user')
 
-const port = process.env.PORT || 8010
+const port = process.env.PORT
 
 const app = express()
 app.use(cors())

@@ -19,7 +19,7 @@ const todos = [
 ]
 
 beforeEach(done => {
-  Todo.remove({})
+  Todo.deleteMany({})
     .then(() => {
       return Todo.insertMany(todos)
     })
@@ -113,7 +113,7 @@ describe('GET /todos/:id', () => {
 })
 
 describe('DELETE /todos/:id', () => {
-  it('should remove a todo', done => {
+  it('should delete a todo', done => {
     var hexId = todos[1]._id.toHexString()
 
     request(app)
