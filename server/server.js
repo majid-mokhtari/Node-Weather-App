@@ -44,8 +44,8 @@ app.post('/users/signup', (req, res) => {
     .then(token => {
       res.header('token', token).send(user)
     })
-    .catch(e => {
-      res.status(400).send(e)
+    .catch(err => {
+      res.status(400).send({ err })
     })
 })
 
@@ -58,8 +58,8 @@ app.post('/users/login', (req, res) => {
         res.header('token', token).send(user)
       })
     })
-    .catch(e => {
-      res.status(400).send()
+    .catch(err => {
+      res.status(400).send({ err })
     })
 })
 
