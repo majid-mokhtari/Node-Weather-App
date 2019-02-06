@@ -14,7 +14,11 @@ var { authenticate } = require('./middleware/authenticate')
 const port = process.env.PORT
 
 const app = express()
-app.use(cors())
+const corsOptions = {
+  exposedHeaders: 'token'
+}
+
+app.use(cors(corsOptions))
 app.use(bodyParser.json())
 
 app.get('/weather', (req, res) => {
@@ -39,7 +43,7 @@ app.post('/users', (req, res) => {
       return user.generateAuthToken()
     })
     .then(token => {
-      res.header('x-auth', token).send(user)
+      res.header('token', token).send(user)
     })
     .catch(e => {
       res.status(400).send(e)
@@ -53,7 +57,7 @@ app.post('/users/login', (req, res) => {
   User.findByCredentials(body.email, body.password)
     .then(user => {
       return user.generateAuthToken().then(token => {
-        res.header('x-auth', token).send(user)
+        res.header('token', token).send(user)
       })
     })
     .catch(e => {
