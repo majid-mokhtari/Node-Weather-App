@@ -42,16 +42,16 @@ UserSchema.methods.toJSON = function () {
   return _.pick(userObject, ['_id', 'email'])
 }
 
-UserSchema.methods.generateAuthToken = function () {
-  var user = this
+UserSchema.methods.generateAuthToken = function (email) {
+  var User = this
   var access = 'auth'
   var token = jwt
-    .sign({ _id: user._id.toHexString(), access }, 'abc123')
+    .sign({ _id: User._id.toHexString(), access }, 'abc123')
     .toString()
 
-  user.tokens.push({ access, token })
+  User.tokens.push({ access, token })
 
-  return user.save().then(() => {
+  return User.save().then(() => {
     return token
   })
 }
@@ -65,7 +65,6 @@ UserSchema.statics.findByCredentials = function (email, password) {
     }
 
     return new Promise((resolve, reject) => {
-      // Use bcrypt.compare to compare password and user.password
       bcrypt.compare(password, user.password, (err, res) => {
         if (res) {
           resolve(user)

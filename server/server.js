@@ -36,13 +36,23 @@ app.post('/users/signup', (req, res) => {
   var body = _.pick(req.body, ['email', 'password'])
   var user = new User(body)
 
-  user
-    .save()
-    .then(() => {
-      return user.generateAuthToken()
-    })
-    .then(token => {
-      res.header('token', token).send(user)
+  User.findOne({ email: body.email })
+    .then(u => {
+      if (u) {
+        return Promise.reject('Email already exists!!')
+      } else {
+        user
+          .save()
+          .then(() => {
+            return user.generateAuthToken(body.email)
+          })
+          .then(token => {
+            res.header('token', token).send(user)
+          })
+          .catch(err => {
+            res.status(400).send({ err })
+          })
+      }
     })
     .catch(err => {
       res.status(400).send({ err })
