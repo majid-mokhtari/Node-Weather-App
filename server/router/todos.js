@@ -57,14 +57,13 @@ router.post('/todos', authenticate, (req, res) => {
   );
 });
 
-router.patch('/todos/:id', authenticate, (req, res) => {
+router.put('/todos/:id', authenticate, (req, res) => {
   var id = req.params.id;
   var body = _.pick(req.body, ['text', 'completed']);
 
   if (!ObjectID.isValid(id)) {
     return res.status(404).send();
   }
-
   if (_.isBoolean(body.completed) && body.completed) {
     body.completedAt = new Date().getTime();
   } else {
@@ -72,8 +71,7 @@ router.patch('/todos/:id', authenticate, (req, res) => {
     body.completedAt = null;
   }
 
-  router
-    .findOneAndUpdate({ _id: id, _creator: req.user._id }, { $set: body }, { new: true })
+  Todo.findOneAndUpdate({ _id: id, _creator: req.user._id }, { $set: body }, { new: true })
     .then(todo => {
       if (!todo) {
         return res.status(404).send();
